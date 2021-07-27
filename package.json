@@ -1,0 +1,16 @@
+{
+  "name": "twitter-trends",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently 'cd frontend && npm start' 'cd backend && npm run dev' "
+  },
+  "keywords": [],
+  "author": "Truly Mittal <trulymittal@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  }
+}
