@@ -39,7 +39,7 @@ router.get('/mentions', async (req, res, next) => {
 // To get trending hashtags...  https://api.twitter.com/1.1/search/tweets.json?q=from%3ACmdr_Hadfield%20%23nasa&result_type=popular
 router.get('/hashtags', async (req, res, next) => {
   try {
-    const q = "%23"+req.query.searchHashtag
+    const q =req.query.searchHashtag
     const sample = await client.get('search/tweets.json?q=&result_type=popular', {
       q,
     })

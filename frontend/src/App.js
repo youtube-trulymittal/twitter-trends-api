@@ -3,7 +3,8 @@ import './App.css'
 import { FaCrosshairs } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Input,InputGroup,InputRightElement,Box } from "@chakra-ui/react"
+import { Input,InputGroup,InputRightElement,Box,
+  Container,VStack,StackDivider,Heading,Image,HStack,Text } from "@chakra-ui/react"
 
 function App() {
   const [trends, setTrends] = useState([])
@@ -87,7 +88,7 @@ function App() {
       <ul>
         {trends.map((trend, index) => {
           return (
-            <li key={index}>
+            <li className="liDown" key={index}>
               <a href={trend.url}>{trend.name}</a>
               {trend.tweet_volume && (
                 <span className='tweet_volume'>{trend.tweet_volume}</span>
@@ -104,12 +105,14 @@ function App() {
       <ul>
         {users.map((user, index) => {
           return (
-            <li key={index}>
+            <Container>
+            <li className="liDown" key={index}>
               <a href={user.url}>{user.name}</a>
               {user.location && (
                 <span className='tweet_volume'>{user.location}</span>
               )}
             </li>
+            </Container>
           )
         })}
       </ul>
@@ -117,18 +120,29 @@ function App() {
   }
   function listHashtags() {
     return (
-      <ul>
+      <VStack 
+      divider={<StackDivider borderColor="gray.200" />}
+          spacing={4}
+          align="stretch"
+          >
+      <ul> 
         {hashtags.map((user, index) => {
           return (
-            <li key={index}>
-              <a href={user.source}>{user.text}</a>
-              {/* {user.location && (
-                <span className='tweet_volume'>{user.location}</span>
-              )} */}
+            <li key={index}><VStack>
+              <HStack  justifyContent="space-evenly">
+                <Image rounded="100%" width="70px" src={user?.user?.profile_image_url_https} />
+                <Heading margin="-0.5" as="h5" size="xs">{user.user.name}</Heading>
+              </HStack>
+              <HStack  justifyContent="space-evenly">
+                <Image rounded="10%" width="100px" src={user?.extended_entities?.media?.[0]?.media_url_https} />
+                <Text margin="-0.5" fontSize="14px">{user.text}</Text>
+              </HStack>
+              </VStack>
             </li>
           )
         })}
       </ul>
+      </VStack>
     )
   }
 
@@ -162,10 +176,13 @@ function App() {
         </div>
       </div>
       <div className='content'>{listTrends()}</div>
+
+  {/* .............Users ......... */}
       <header className='App-header'>
         <img src={logo} className='logo' alt='twitter' />
         <h3>Twitter Users</h3>
       </header>
+      <VStack maxW="sm"  maxW="container.sm">
       <div className='menu'>
           <InputGroup size="md">
               <Input
@@ -175,14 +192,16 @@ function App() {
               />
           <InputRightElement width="4.5rem">
             <Box as="button" borderRadius="md" bg="tomato" color="white" 
-            value={searchValue} onClick={getMensions} alignItems="baseline" px={4} h={40}>
+            value={searchValue} onClick={getMensions} alignItems="baseline" px={4} h={30}>
                 Search
             </Box>
           </InputRightElement>
         </InputGroup>
       </div>
       <div className='content'>{listUsers()}</div>
-      
+      </VStack>
+
+ {/* ///////////////Hashtag.....       */}
       <header className='App-header'>
         <img src={logo} className='logo' alt='twitter' />
         <h3>Twitter Hashtags</h3>
@@ -201,7 +220,11 @@ function App() {
           </InputRightElement>
         </InputGroup>
       </div>
-      <div className='content'>{listHashtags()}</div>
+      <div className='content'>
+      <Container maxW="500px"   >
+        {listHashtags()}
+        </Container>
+        </div>
     </div>
   )
 }
